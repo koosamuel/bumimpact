@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="공사 물량내역서를 기반으로 비용과 탄소를 비교하는 BUM Impact 공개 데모">
+  <title>BUM Impact | 건설 탄소예산 데모</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <a class="brand" href="#dashboard"><span>BI</span><strong>BUM<br>Impact</strong></a>
+      <nav aria-label="주요 화면">
+        <button class="nav active" data-view="dashboard">대시보드</button>
+        <button class="nav" data-view="materials">자재 분석</button>
+        <button class="nav" data-view="scenarios">대안 비교</button>
+        <button class="nav" data-view="method">산정 방법</button>
+      </nav>
+      <p class="aside-note">공개 시범 화면<br>실제 사업 검증 전 자료입니다.</p>
+    </aside>
+
+    <main>
+      <header class="top">
+        <div><p class="eyebrow">CONSTRUCTION CARBON INTELLIGENCE</p><h1 id="view-title">프로젝트 대시보드</h1></div>
+        <span class="mode">DEMO · PUBLIC</span>
+      </header>
+
+      <section class="notice" role="note"><strong>시범 데이터 안내</strong> 이 화면은 공개 가능한 합성 물량내역서로 작동합니다. 실제 인증·규제·투자 판단에 사용할 수 없습니다.</section>
+
+      <section class="view active" id="dashboard">
+        <div class="hero">
+          <div><p>2026 SNU CLIMATE TECH</p><h2>공사비처럼 탄소도<br>미리 배분하고 관리합니다.</h2><button id="run-demo">시범 분석 실행</button></div>
+          <div class="budget-ring"><span>탄소예산 사용률</span><strong id="budget-percent">—</strong><small>원료 채취부터 제조까지</small></div>
+        </div>
+        <div class="metric-grid">
+          <article><span>총 탄소배출량</span><strong id="total-carbon">—</strong><small>kgCO₂e</small></article>
+          <article><span>설정 탄소예산</span><strong id="carbon-budget">—</strong><small>kgCO₂e</small></article>
+          <article><span>검토 필요</span><strong id="review-count">—</strong><small>사용자 확인 항목</small></article>
+        </div>
+        <article class="panel"><div class="panel-title"><div><p class="eyebrow">CARBON HOTSPOT</p><h3>자재별 탄소 기여도</h3></div><b>범위 A1–A3</b></div><div id="hotspots" class="empty">시범 분석을 실행하면 결과가 표시됩니다.</div></article>
+      </section>
+
+      <section class="view" id="materials">
+        <article class="panel"><div class="panel-title"><div><p class="eyebrow">BILL OF QUANTITIES</p><h2>공사 물량내역서 분석</h2></div><span class="tag">원문 보존</span></div>
+          <p>품목명과 단위를 표준화하고, 출처가 연결된 배출계수로 탄소량을 계산합니다.</p>
+          <div class="table-wrap"><table><thead><tr><th>자재</th><th>수량</th><th>자재비</th><th>탄소배출량</th><th>상태</th></tr></thead><tbody id="material-rows"><tr><td colspan="5" class="empty">대시보드에서 시범 분석을 실행해 주세요.</td></tr></tbody></table></div>
+        </article>
+      </section>
+
+      <section class="view" id="scenarios">
+        <article class="panel"><p class="eyebrow">DECISION SUPPORT</p><h2>비용·탄소 대안 비교</h2><p>기능과 단위 조건을 통과한 자재 후보를 대상으로 비용과 탄소의 상충관계를 비교합니다.</p>
+          <div id="scenario-cards" class="scenario-grid"></div>
+          <div class="legend"><span><i class="cost"></i>비용 변화</span><span><i class="carbon"></i>탄소 변화</span></div>
+        </article>
+      </section>
+
+      <section class="view" id="method">
+        <article class="panel"><p class="eyebrow">TRACEABLE METHOD</p><h2>어떻게 계산하고 선택하나요?</h2>
+          <div class="steps">
+            <div><b>01</b><h3>입력 보존</h3><p>물량내역서의 원문, 수량과 단위를 보존합니다.</p></div>
+            <div><b>02</b><h3>조건 검증</h3><p>기능·규격·단위·전과정평가 범위를 먼저 확인합니다.</p></div>
+            <div><b>03</b><h3>비용·탄소 계산</h3><p>수량×단가와 수량×단위환산×배출계수로 계산합니다.</p></div>
+            <div><b>04</b><h3>대안 비교</h3><p>공사비 예산과 탄소예산을 만족하는 선택지를 보여줍니다.</p></div>
+          </div>
+          <p class="formula">탄소배출량 = 수량 × 단위환산계수 × 검증된 배출계수</p>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>
