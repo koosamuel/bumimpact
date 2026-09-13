@@ -58,8 +58,8 @@ function setMode(mode) {
   connectionMode = mode;
   document.getElementById('connection-mode').textContent = mode === 'live' ? '실제 계산 엔진 연결' : '정적 데모 모드';
   document.getElementById('mode-notice').innerHTML = mode === 'live'
-    ? '<strong>실제 계산 모드</strong> Mac의 공개용 SQLite와 Python 계산 엔진을 사용합니다. 시연 자료는 합성 데이터입니다.'
-    : '<strong>백엔드 미연결</strong> GitHub에 저장된 합성 예시 데이터로 작동합니다. 실제 인증·규제·투자 판단에 사용할 수 없습니다.';
+    ? '<strong>실제 계산 모드</strong> 본 화면은 공개·예시 데이터를 활용한 시범 분석 결과입니다.'
+    : '<strong>백엔드 미연결</strong> 본 화면은 공개·예시 데이터를 활용한 시범 분석 결과입니다.';
 }
 
 function renderMaterials(materials) {
