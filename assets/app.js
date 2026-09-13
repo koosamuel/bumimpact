@@ -115,7 +115,7 @@ async function initialize() {
   demoData = await fetchJson('data/demo.json');
   renderScenarios(demoData.scenarios);
   try {
-    const config = await fetchJson('data/api-config.json');
+    const config = await fetchJson(`data/api-config.json?ts=${Date.now()}`, {cache:'no-store'});
     apiBase = (config.apiBase || '').replace(/\/$/, '');
     if (!apiBase) throw new Error('API not configured');
     const apiUrl = new URL(apiBase);
