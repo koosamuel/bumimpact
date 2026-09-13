@@ -118,6 +118,10 @@ async function initialize() {
     const config = await fetchJson('data/api-config.json');
     apiBase = (config.apiBase || '').replace(/\/$/, '');
     if (!apiBase) throw new Error('API not configured');
+    const apiUrl = new URL(apiBase);
+    if (apiUrl.protocol !== 'https:' || apiUrl.username || apiUrl.password || apiUrl.pathname !== '/' || apiUrl.search || apiUrl.hash) {
+      throw new Error('Unsafe API URL');
+    }
     const health = await fetchHealth(`${apiBase}/api/public/health`);
     if (health.status !== 'ok' || health.data_classification !== 'demo_synthetic') throw new Error('Unsafe API response');
     setMode('live');
