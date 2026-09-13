@@ -1,5 +1,5 @@
 const fmt = new Intl.NumberFormat('ko-KR', {maximumFractionDigits: 1});
-const REQUEST_TIMEOUT_MS = 2500;
+const REQUEST_TIMEOUT_MS = 10000;
 const HEALTH_RETRY_DELAYS_MS = [0, 400, 1000];
 let apiBase = '';
 let demoData = null;
