@@ -1,0 +1,16 @@
+{
+  "dataClassification":"demo_synthetic",
+  "budgetKg":100000,
+  "materials":[
+    {"name":"레디믹스 콘크리트","quantity":"120 m³","cost":14880000,"carbon":38400,"status":"계산 완료"},
+    {"name":"철근","quantity":"18 t","cost":17640000,"carbon":37800,"status":"계산 완료"},
+    {"name":"구조용 강재","quantity":"4 t","cost":6120000,"carbon":8400,"status":"계산 완료"},
+    {"name":"석고보드","quantity":"340 m²","cost":3910000,"carbon":1428,"status":"계산 완료"},
+    {"name":"단열재","quantity":"80 m","cost":null,"carbon":null,"status":"검토 필요"}
+  ],
+  "scenarios":[
+    {"name":"기준안","cost":52550000,"carbon":86028,"costChange":0,"carbonChange":0,"note":"현재 물량내역서 기준"},
+    {"name":"비용 우선안","cost":48700000,"carbon":82400,"costChange":-7.3,"carbonChange":-4.2,"note":"비용 절감 중심"},
+    {"name":"균형안","cost":50100000,"carbon":73100,"costChange":-4.7,"carbonChange":-15,"note":"비용·탄소 동시 개선","recommended":true}
+  ]
+}
