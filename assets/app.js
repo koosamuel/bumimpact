@@ -1,5 +1,6 @@
 const fmt = new Intl.NumberFormat('ko-KR', {maximumFractionDigits: 1});
 const REQUEST_TIMEOUT_MS = 2500;
+const HEALTH_RETRY_DELAYS_MS = [0, 400, 1000];
 let apiBase = '';
 let demoData = null;
 let connectionMode = 'checking';
@@ -17,9 +18,40 @@ async function fetchJson(url, options = {}) {
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
     const response = await fetch(url, {...options, signal: controller.signal});
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      const error = new Error(payload.detail || `HTTP ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
     return await response.json();
   } finally { clearTimeout(timer); }
+}
+
+function wait(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+async function fetchHealth(url) {
+  let lastError;
+  for (const delay of HEALTH_RETRY_DELAYS_MS) {
+    if (delay) await wait(delay);
+    try { return await fetchJson(url); }
+    catch (error) { lastError = error; }
+  }
+  throw lastError;
+}
+
+function showLiveError(error) {
+  const status = error && error.status;
+  const message = status === 429
+    ? '요청이 많습니다. 잠시 후 다시 시도해 주세요.'
+    : status === 503
+      ? '다른 계산을 처리 중입니다. 잠시 후 다시 시도해 주세요.'
+      : status === 504
+        ? '계산 제한시간을 초과했습니다.'
+        : 'Mac 계산 서버와 통신하지 못했습니다. 기존 결과는 유지됩니다.';
+  document.getElementById('mode-notice').innerHTML = `<strong>API 오류</strong> ${message}`;
 }
 
 function setMode(mode) {
@@ -71,8 +103,8 @@ async function runDemo() {
       renderScenarios(demoData.scenarios);
     } else renderStatic(demoData);
   } catch (error) {
-    setMode('static');
-    renderStatic(demoData);
+    if (connectionMode === 'live') showLiveError(error);
+    else renderStatic(demoData);
   } finally {
     button.disabled = false;
     button.textContent = '시범 분석 실행';
@@ -86,7 +118,7 @@ async function initialize() {
     const config = await fetchJson('data/api-config.json');
     apiBase = (config.apiBase || '').replace(/\/$/, '');
     if (!apiBase) throw new Error('API not configured');
-    const health = await fetchJson(`${apiBase}/api/public/health`);
+    const health = await fetchHealth(`${apiBase}/api/public/health`);
     if (health.status !== 'ok' || health.data_classification !== 'demo_synthetic') throw new Error('Unsafe API response');
     setMode('live');
   } catch (error) { setMode('static'); }
